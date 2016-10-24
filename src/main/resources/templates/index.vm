@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>滴滴报销助手</title>
+</head>
+
+<script src="/webjars/jquery/3.1.1/jquery.min.js"/>
+
+<script>
+    function doUpload() {
+        var formData = new FormData($("#uploadForm")[0]);
+        $.ajax({
+            url: 'http://localhost:8080/test',
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (returndata) {
+                alert(returndata);
+            },
+            error: function (returndata) {
+                alert(returndata);
+            }
+        });
+    }
+</script>
+
+<body>
+<form id="uploadForm">
+    <p>指定文件名： <input type="text" name="filename" value=""/></p>
+    <p>上传文件： <input type="file" name="file"/></ p>
+    <input type="button" value="上传" onclick="doUpload()"/>
+</form>
+
+<form id="Form1" action="action.aspx" method="post">
+    报销人：<input name="billOwner" type="text"/><br/>
+    行程时间：<input name="minutes" type="text"/><br/>
+    <input type="submit" value="提 交"/>
+</form>
+</body>
+
+<html>
