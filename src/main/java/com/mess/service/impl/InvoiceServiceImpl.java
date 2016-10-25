@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by jinshibao on 2016/10/14.
@@ -32,8 +33,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         minutes = minutes == null ? DEFAULT_MINUTES : minutes;
         List<JourneyDto> journeyDtos = new ArrayList<JourneyDto>();
 
-//            File file = new File("D://home/jinshibao/var/sync/invoice/" + UUID.randomUUID() + ".pdf");
-        File file = new File("D://test.pdf");
+        File file = new File("/home/jinshibao/var/sync/invoice/" + UUID.randomUUID() + ".pdf");
+//        File file = new File("D://test.pdf");
         billFile.transferTo(file);
         PDDocument document = PDDocument.load(file);
         PDFTextStripper pdfStripper = new PDFTextStripper();
@@ -75,7 +76,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             row.createCell(8).setCellValue(journeyDto.getRemark());
             i++;
         }
-        String fileName = "D://result.xls";
+        String fileName = "/home/jinshibao/var/sync/invoice/" + UUID.randomUUID() + ".xls";
         FileOutputStream fout = new FileOutputStream(fileName);
         File file = new File(fileName);
         workbook.write(fout);

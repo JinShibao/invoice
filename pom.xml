@@ -29,13 +29,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
-        <!--WebJars-->
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>jquery</artifactId>
-            <version>3.1.1</version>
-        </dependency>
-
         <!--Commons-io-->
         <dependency>
             <groupId>commons-io</groupId>
