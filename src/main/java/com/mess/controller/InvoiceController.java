@@ -24,17 +24,17 @@ public class InvoiceController {
     @RequestMapping("/invoice")
     public String invoice(HttpServletResponse response, MultipartFile billFile, String billOwner, Integer minutes) {
         File resultFile;
-        OutputStream outputStream;
+        OutputStream os;
         try {
             resultFile = invoiceService.invoice(billFile, billOwner, minutes);
-            outputStream = response.getOutputStream();
+            os = response.getOutputStream();
             response.reset();
+            response.setHeader("Content-Disposition", "attachment; filename=invoice.xls");
             response.setContentType("application/octet-stream; charset=utf-8");
-            outputStream.write(FileUtils.readFileToByteArray(resultFile.getAbsoluteFile()));
-            outputStream.flush();
-            outputStream.close();
+            os.write(FileUtils.readFileToByteArray(resultFile.getAbsoluteFile()));
+            os.flush();
+            os.close();
         } catch (Exception e) {
-            e.printStackTrace();
             return e.getMessage();
         }
         return "success";

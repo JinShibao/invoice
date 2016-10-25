@@ -5,7 +5,7 @@
 
 <body>
 <form id="infoForm" action="/invoice" method="post" enctype="multipart/form-data">
-    <input name="billFile" value="请选择文件" type="file">
+    <input name="billFile" value="请选择文件" type="file"><br/>
     报销人：<input name="billOwner" type="text"/><br/>
     行程时间(默认20分钟)：<input name="minutes" type="text"/><br/>
     <input type="submit" value="提交"/>
