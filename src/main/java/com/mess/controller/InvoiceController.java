@@ -35,6 +35,7 @@ public class InvoiceController {
             outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
+            return e.getMessage();
         }
         return "success";
     }

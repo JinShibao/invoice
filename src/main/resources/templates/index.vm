@@ -1,14 +1,27 @@
 <html>
 <head>
     <title>滴滴报销助手</title>
+    <script type="text/javascript" src="webjars/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function submitForm() {
+            $.ajax({
+                url: "/invoice",
+                data: $("#infoForm").serialize(),
+                type: "post",
+                success: function (msg) {
+                    alert(msg)
+                }
+            })
+        }
+    </script>
 </head>
 
 <body>
-<form id="infoForm" action="/invoice" method="post" enctype="multipart/form-data">
-    <input name="billFile" value="请选择文件" type="file">
+<form id="infoForm" method="post" enctype="multipart/form-data">
+    <input name="billFile" value="请选择文件" type="file"><br/>
     报销人：<input name="billOwner" type="text"/><br/>
-    行程时间：<input name="minutes" type="text"/><br/>
-    <input type="submit" value="提交"/>
+    行程时间：(默认为20分钟)<input name="minutes" type="text"/><br/>
+    <input id="submit" type="button" value="提交" onclick="submitForm()"/>
 </form>
 </body>
 <html>
