@@ -1,10 +1,7 @@
 package com.mess.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.mess.dto.JourneyDto;
 import com.mess.service.InvoiceService;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -28,8 +25,6 @@ import java.util.UUID;
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
 
-    private static Logger logger = LogManager.getLogger(InvoiceService.class);
-
     private static String DEFAULT_REASON = "加班";
     private static Integer DEFAULT_MINUTES = 20;
 
@@ -44,11 +39,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         PDDocument document = PDDocument.load(file);
         PDFTextStripper pdfStripper = new PDFTextStripper();
         String documentText = pdfStripper.getText(document);
-        logger.info(documentText);
         String[] documentTextArray = documentText.split("\n");
-        for (int i = 0; i < documentTextArray.length; i++) {
-            logger.info(documentTextArray[i]);
-        }
         for (String journeyStr : documentTextArray) {
             if (journeyStr.substring(0, 1).matches("^[0-9]*$")) {
                 String[] journeyArray = journeyStr.split(" ");
@@ -84,18 +75,12 @@ public class InvoiceServiceImpl implements InvoiceService {
             row.createCell(7).setCellValue(journeyDto.getBillOwner());
             row.createCell(8).setCellValue(journeyDto.getRemark());
             i++;
-            logger.info("写入第" + i + "行数据 " + JSON.toJSONString(journeyDto));
         }
         String fileName = "/home/jinshibao/var/sync/invoice/" + UUID.randomUUID() + ".xls";
 //        String fileName = "D://result.xls";
         FileOutputStream fout = new FileOutputStream(fileName);
-        try {
-            workbook.write(fout);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            fout.close();
-        }
+        workbook.write(fout);
+        fout.close();
         File file = new File(fileName);
         return file;
     }
