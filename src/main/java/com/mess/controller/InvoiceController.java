@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
@@ -24,7 +25,7 @@ public class InvoiceController {
     @RequestMapping("/invoice")
     public String invoice(HttpServletResponse response, MultipartFile billFile, String billOwner, Integer minutes) {
         File resultFile;
-        OutputStream os;
+        OutputStream os = null;
         try {
             resultFile = invoiceService.invoice(billFile, billOwner, minutes);
             os = response.getOutputStream();
@@ -33,9 +34,14 @@ public class InvoiceController {
             response.setContentType("application/octet-stream; charset=utf-8");
             os.write(FileUtils.readFileToByteArray(resultFile.getAbsoluteFile()));
             os.flush();
-            os.close();
         } catch (Exception e) {
             return e.getMessage();
+        } finally {
+            try {
+                os.close();
+            } catch (IOException e) {
+                return e.getMessage();
+            }
         }
         return "success";
     }
