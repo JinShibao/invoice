@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.IOException;
 import java.io.OutputStream;
 
 /**
@@ -23,26 +22,19 @@ public class InvoiceController {
     InvoiceService invoiceService;
 
     @RequestMapping("/invoice")
-    public String invoice(HttpServletResponse response, MultipartFile billFile, String billOwner, Integer minutes) {
+    public String invoice(HttpServletResponse response, MultipartFile billFile, String billOwner, Integer minutes) throws Exception {
         File resultFile;
-        OutputStream os = null;
-        try {
-            resultFile = invoiceService.invoice(billFile, billOwner, minutes);
-            os = response.getOutputStream();
-            response.reset();
-            response.setHeader("Content-Disposition", "attachment; filename=invoice.xls");
-            response.setContentType("application/octet-stream; charset=utf-8");
-            os.write(FileUtils.readFileToByteArray(resultFile.getAbsoluteFile()));
-            os.flush();
-        } catch (Exception e) {
-            return e.getMessage();
-        } finally {
-            try {
-                os.close();
-            } catch (IOException e) {
-                return e.getMessage();
-            }
-        }
+        OutputStream os;
+
+        resultFile = invoiceService.invoice(billFile, billOwner, minutes);
+        os = response.getOutputStream();
+        response.reset();
+        response.setHeader("Content-Disposition", "attachment; filename=invoice.xls");
+        response.setContentType("application/octet-stream; charset=utf-8");
+        os.write(FileUtils.readFileToByteArray(resultFile.getAbsoluteFile()));
+        os.flush();
+        os.close();
+
         return "success";
     }
 
