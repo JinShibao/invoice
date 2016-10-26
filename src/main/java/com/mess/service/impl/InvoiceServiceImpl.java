@@ -44,6 +44,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         PDDocument document = PDDocument.load(file);
         PDFTextStripper pdfStripper = new PDFTextStripper();
         String documentText = pdfStripper.getText(document);
+        logger.info(documentText);
         String[] documentTextArray = documentText.split("\r\n");
         for (String journeyStr : documentTextArray) {
             if (journeyStr.substring(0, 1).matches("^[0-9]*$")) {
