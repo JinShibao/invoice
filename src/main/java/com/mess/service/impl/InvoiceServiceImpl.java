@@ -79,7 +79,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         String fileName = "/home/jinshibao/var/sync/invoice/" + UUID.randomUUID() + ".xls";
 //        String fileName = "D://result.xls";
         FileOutputStream fout = new FileOutputStream(fileName);
-        File file = new File(fileName);
         try {
             workbook.write(fout);
         } catch (Exception e) {
@@ -87,6 +86,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         } finally {
             fout.close();
         }
+        File file = new File(fileName);
         return file;
     }
 }
