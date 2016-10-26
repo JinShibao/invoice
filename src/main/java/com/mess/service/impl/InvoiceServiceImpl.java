@@ -45,7 +45,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         PDFTextStripper pdfStripper = new PDFTextStripper();
         String documentText = pdfStripper.getText(document);
         logger.info(documentText);
-        String[] documentTextArray = documentText.split("\r\n");
+        String[] documentTextArray = documentText.split("\n");
         for (int i = 0; i < documentTextArray.length; i++) {
             logger.info(documentTextArray[i]);
         }
