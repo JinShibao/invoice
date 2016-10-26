@@ -1,7 +1,10 @@
 package com.mess.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.mess.dto.JourneyDto;
 import com.mess.service.InvoiceService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -24,6 +27,8 @@ import java.util.UUID;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
+
+    private static Logger logger = LogManager.getLogger(InvoiceService.class);
 
     private static String DEFAULT_REASON = "加班";
     private static Integer DEFAULT_MINUTES = 20;
@@ -75,6 +80,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             row.createCell(7).setCellValue(journeyDto.getBillOwner());
             row.createCell(8).setCellValue(journeyDto.getRemark());
             i++;
+            logger.info("写入第" + i + "行数据 " + JSON.toJSONString(journeyDto));
         }
         String fileName = "/home/jinshibao/var/sync/invoice/" + UUID.randomUUID() + ".xls";
 //        String fileName = "D://result.xls";
